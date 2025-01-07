@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { Cart, CartItem, cartItems, carts } from "@/db/schema/cart";
 import ApiError from "@/utils/api-error";
+import { CartItemsInsertValidation } from "@/validation/cart";
 import { and, eq } from "drizzle-orm";
 
 type CartResponse = Cart & {
@@ -46,5 +47,11 @@ export class CartService {
     }
   }
 
-  async addProductToCart() {}
+  async addProductToCart(productData: CartItemsInsertValidation) {
+    try {
+      await db.insert(cartItems).values({ ...productData });
+    } catch (error: any) {
+      throw new ApiError(error.message || "Failed to get or create cart");
+    }
+  }
 }

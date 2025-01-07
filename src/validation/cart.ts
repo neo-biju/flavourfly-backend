@@ -6,6 +6,8 @@ export const cartItemsInsertValidation = z.object({
   productImage: z.string().max(255).optional(),
   quantity: z.number().int().min(1).default(1),
   price: z.string(),
-  createdAt: z.string().datetime().optional(),
-  updatedAt: z.string().datetime().optional(),
 });
+
+export type CartItemsInsertValidation = z.infer<
+  typeof cartItemsInsertValidation
+>;

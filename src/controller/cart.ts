@@ -22,8 +22,13 @@ export const addProductToCart = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body)
-    res.json({ message: "success", status: 200 });
+    const cartService = new CartService();
+    const userCart = await cartService.getOrCreateCart(req.body.userId);
+
+    req.body.cartId = userCart.id;
+    await cartService.addProductToCart(req.body);
+    
+    res.json({ message: "Product added to cart", status: 200 });
   } catch (error) {
     next(error);
   }
