@@ -1,15 +1,15 @@
 import "module-alias/register";
-import express, { NextFunction, Request, Response } from "express";
-import authRouter from "@/routes/authentication";
+import express from "express";
 import { errorHandler } from "@/middleware/error-handler";
 import env from "@/config/env";
+import routes from "@/routes";
 
 const app = express();
 const baseURL = "/api/v1";
 
 app.use(express.json());
 
-app.use(`${baseURL}/auth`, authRouter);
+app.use(baseURL, routes);
 
 app.use(errorHandler);
 

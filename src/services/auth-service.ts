@@ -90,20 +90,23 @@ export class AuthService {
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ error: "Access token required" });
+      res.status(401).json({ error: "Access token required" });
+      return;
     }
 
     try {
-      const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: number };
+      jwt.verify(token, env.JWT_SECRET) as { userId: number };
 
-      // Check if session exists and is valid
-      const session = await db.select().from(sessions).where(eq(sessions.accessToken, token));
+      const session = await db
+        .select()
+        .from(sessions)
+        .where(eq(sessions.accessToken, token));
 
       if (!session[0] || !session[0].isValid) {
-        return res.status(401).json({ error: "Invalid session" });
+        res.status(401).json({ error: "Invalid session" });
+        return;
       }
 
-      // Update last active timestamp
       await db
         .update(sessions)
         .set({ lastActive: new Date() })
@@ -111,7 +114,8 @@ export class AuthService {
 
       next();
     } catch (error) {
-      return res.status(403).json({ error: "Invalid token" });
+      res.status(403).json({ error: "Invalid token" });
+      return;
     }
   }
 
