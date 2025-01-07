@@ -10,19 +10,13 @@ const envSchema = z.object({
     .enum(["development", "test", "production"])
     .default("development"),
   PORT: z.string().transform(Number).default("5000"),
-  //   HOST: z.string().default('localhost'),
 
   //   // Database
   DATABASE_URL: z.string(),
-  //   DB_HOST: z.string(),
-  //   DB_PORT: z.string().transform(Number),
-  //   DB_NAME: z.string(),
-  //   DB_USER: z.string(),
-  //   DB_PASSWORD: z.string(),
 
   //   // API Keys
   GOOGLE_CLIENT_ID: z.string(),
-  //   JWT_SECRET: z.string(),
+  JWT_SECRET: z.string(),
 });
 
 // Validate and export environment variables
