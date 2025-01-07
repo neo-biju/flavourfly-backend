@@ -22,6 +22,7 @@ export const addProductToCart = async (
   next: NextFunction
 ) => {
   try {
+    console.log(req.body)
     res.json({ message: "success", status: 200 });
   } catch (error) {
     next(error);

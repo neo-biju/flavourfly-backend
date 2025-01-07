@@ -17,7 +17,6 @@ export class CartService {
         .leftJoin(cartItems, eq(cartItems.cartId, carts.id));
 
       if (cartSearch.length === 0) {
-        // Create new cart if none exists
         const [newCart] = await db
           .insert(carts)
           .values({
@@ -46,4 +45,6 @@ export class CartService {
       throw new ApiError(error.message || "Failed to get or create cart");
     }
   }
+
+  async addProductToCart() {}
 }
