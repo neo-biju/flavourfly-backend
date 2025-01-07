@@ -111,6 +111,7 @@ export class AuthService {
         .update(sessions)
         .set({ lastActive: new Date() })
         .where(eq(sessions.id, session[0].id));
+      req.body.userId = session[0].userId;
 
       next();
     } catch (error) {
