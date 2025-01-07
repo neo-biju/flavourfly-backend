@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import validateRequest from "@/lib/validate-request";
+import validateRequest from "@/utils/validate-request";
 import { googleValidation } from "@/validation/authentication";
 import { verifyGoogleLogin } from "@/lib/verify-google";
 
@@ -11,6 +11,7 @@ authRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const googleLoginResponse = await verifyGoogleLogin(req.body.accessToken);
+      console.log(googleLoginResponse);
       res.json({ message: "login with google completed" });
     } catch (error) {
       next(error);

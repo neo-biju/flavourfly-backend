@@ -21,7 +21,7 @@ const envSchema = z.object({
   //   DB_PASSWORD: z.string(),
 
   //   // API Keys
-  //   API_KEY: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
   //   JWT_SECRET: z.string(),
 });
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import ApiError from "@/utils/api-error";
+import env from "@/config/env";
 
 type GoogleUserData = {
   sub: string;
@@ -20,7 +21,7 @@ export const verifyGoogleLogin = async (accessToken: string) => {
       `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
     );
 
-    if (tokenInfoResponse.data.audience !== process.env.GOOGLE_CLIENT_ID_WEB)
+    if (tokenInfoResponse.data.audience !== env.GOOGLE_CLIENT_ID)
       throw new ApiError("Invalid token audience.");
 
     // Get user info
