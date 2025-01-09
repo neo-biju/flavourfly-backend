@@ -68,8 +68,13 @@ export const updateProductQty = async (
   res: Response,
   next: NextFunction
 ) => {
+  const cartService = new CartService();
   try {
-    res.success("Product quantity updated");
+    const response = await cartService.updateProductQuantity(
+      req.body.cartItemId,
+      req.body.quantity
+    );
+    res.success("Product quantity updated", response);
     return;
   } catch (error) {
     console.log(error);
