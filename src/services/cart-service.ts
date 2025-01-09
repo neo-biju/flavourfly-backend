@@ -54,4 +54,12 @@ export class CartService {
       throw new ApiError(error.message || "Failed to get or create cart");
     }
   }
+
+  async deleteProductFromCart(productId: string) {
+    try {
+      await db.delete(cartItems).where(eq(cartItems.productId, productId));
+    } catch (error: any) {
+      throw new ApiError(error.message || "Failed to delete product from cart");
+    }
+  }
 }

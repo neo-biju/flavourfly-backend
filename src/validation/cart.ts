@@ -11,3 +11,9 @@ export const cartItemsInsertValidation = z.object({
 export type CartItemsInsertValidation = z.infer<
   typeof cartItemsInsertValidation
 >;
+
+export const cartItemDeleteFromCartValidation = z.object({
+  productId: z.string().max(255),
+});
+
+export type CartItemDeleteValidation = z.infer<typeof cartItemDeleteFromCartValidation>;

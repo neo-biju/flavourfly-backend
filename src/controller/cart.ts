@@ -27,8 +27,7 @@ export const addProductToCart = async (
 
     req.body.cartId = userCart.id;
     await cartService.addProductToCart(req.body);
-
-    res.json({ message: "Product added to cart", status: 200 });
+    res.success("Product added to cart");
   } catch (error) {
     next(error);
   }
@@ -36,4 +35,27 @@ export const addProductToCart = async (
 
 export const updateCartItem = async () => {};
 
-export const deleteCartItem = async () => {};
+export const deleteCartItemFromCart = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const cartService = new CartService();
+  try {
+    const userCart = await cartService.getOrCreateCart(req.body.userId);
+
+    const findTheProductCart = userCart.cart_items?.find(
+      (item) => item?.productId === req.body.productId
+    );
+
+    if (findTheProductCart) {
+      await cartService.deleteProductFromCart(req.body.productId);
+      res.success("Product deleted from cart");
+      return;
+    }
+
+    res.error("Product not found in cart", 404);
+  } catch (error) {
+    next(error);
+  }
+};
