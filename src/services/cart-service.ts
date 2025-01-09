@@ -60,7 +60,7 @@ export class CartService {
 
       if (findTheProductCart) {
         return this.updateProductQuantity(
-          productData.productId,
+          findTheProductCart.id,
           findTheProductCart.quantity + 1
         );
       } else {
@@ -84,12 +84,15 @@ export class CartService {
     }
   }
 
-  async updateProductQuantity(productId: string, quantity: number) {
+  async updateProductQuantity(
+    cartItemId: number,
+    quantity: number
+  ) {
     try {
       return await db
         .update(cartItems)
         .set({ quantity })
-        .where(eq(cartItems.productId, productId))
+        .where(eq(cartItems.id, cartItemId))
         .returning();
     } catch (error: any) {
       throw new ApiError(error.message || "Failed to update product quantity");

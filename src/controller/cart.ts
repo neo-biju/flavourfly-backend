@@ -62,3 +62,16 @@ export const deleteCartItemFromCart = async (
     next(error);
   }
 };
+
+export const updateProductQty = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.success("Product quantity updated");
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
