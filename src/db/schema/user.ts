@@ -5,6 +5,7 @@ import {
   serial,
   text,
   timestamp,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { timestamps } from "./etc";
@@ -14,7 +15,7 @@ import { carts } from "./cart";
 import { orders } from "./orders";
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: uuid().defaultRandom().primaryKey().notNull(),
   email: varchar("email", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }).notNull(),
   googleId: varchar("google_id", { length: 255 }).unique(), // Google's unique identifier
@@ -26,8 +27,8 @@ export const users = pgTable("users", {
 });
 
 export const sessions = pgTable("sessions", {
-  id: varchar("id", { length: 255 }).primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").references(() => users.id),
   accessToken: text("access_token").notNull(),
   refreshToken: text("refresh_token"),
   expiresAt: timestamp("expires_at").notNull(),

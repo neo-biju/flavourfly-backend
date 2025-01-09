@@ -9,7 +9,7 @@ type CartResponse = Cart & {
 };
 
 export class CartService {
-  async getOrCreateCart(userId: number): Promise<CartResponse> {
+  async getOrCreateCart(userId: string): Promise<CartResponse> {
     try {
       const cartSearch = await db
         .select()
@@ -49,7 +49,7 @@ export class CartService {
 
   async addProductToCart(
     productData: CartItemsInsertValidation,
-    userId: number
+    userId: string
   ) {
     try {
       const getCart = await this.getOrCreateCart(userId);
@@ -85,7 +85,7 @@ export class CartService {
   }
 
   async updateProductQuantity(
-    cartItemId: number,
+    cartItemId: string,
     quantity: number
   ) {
     try {

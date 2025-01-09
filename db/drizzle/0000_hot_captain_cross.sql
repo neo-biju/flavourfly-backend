@@ -1,6 +1,6 @@
 CREATE TABLE "addresses" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
 	"type" varchar(20) NOT NULL,
 	"is_default" boolean DEFAULT false,
 	"street_address" varchar(255) NOT NULL,
@@ -15,8 +15,8 @@ CREATE TABLE "addresses" (
 );
 --> statement-breakpoint
 CREATE TABLE "cart_items" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"cart_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"cart_id" uuid,
 	"product_id" varchar(255) NOT NULL,
 	"product_name" varchar(255) NOT NULL,
 	"product_image" varchar(255),
@@ -27,16 +27,16 @@ CREATE TABLE "cart_items" (
 );
 --> statement-breakpoint
 CREATE TABLE "carts" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
 	"status" varchar(50) DEFAULT 'active' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "order_items" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"order_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"order_id" uuid,
 	"product_id" varchar(255) NOT NULL,
 	"product_name" varchar(255) NOT NULL,
 	"product_image" varchar(255),
@@ -47,10 +47,10 @@ CREATE TABLE "order_items" (
 );
 --> statement-breakpoint
 CREATE TABLE "orders" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"user_id" integer,
-	"shipping_address_id" integer,
-	"billing_address_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
+	"shipping_address_id" uuid,
+	"billing_address_id" uuid,
 	"status" varchar(50) DEFAULT 'pending' NOT NULL,
 	"total" numeric(10, 2) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -58,8 +58,8 @@ CREATE TABLE "orders" (
 );
 --> statement-breakpoint
 CREATE TABLE "sessions" (
-	"id" varchar(255) PRIMARY KEY NOT NULL,
-	"user_id" integer,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid,
 	"access_token" text NOT NULL,
 	"refresh_token" text,
 	"expires_at" timestamp NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE "sessions" (
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"google_id" varchar(255),

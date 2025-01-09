@@ -3,6 +3,7 @@ import {
   integer,
   pgTable,
   serial,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { users } from "./user";
@@ -10,8 +11,8 @@ import { timestamps } from "./etc";
 import { relations } from "drizzle-orm";
 
 export const addresses = pgTable("addresses", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").references(() => users.id),
   type: varchar("type", { length: 20 }).notNull(),
   isDefault: boolean("is_default").default(false),
   streetAddress: varchar("street_address", { length: 255 }).notNull(),

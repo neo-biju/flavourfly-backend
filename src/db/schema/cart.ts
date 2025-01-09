@@ -3,6 +3,7 @@ import {
   integer,
   pgTable,
   serial,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { timestamps } from "./etc";
@@ -10,15 +11,15 @@ import { users } from "./user";
 import { relations } from "drizzle-orm";
 
 export const carts = pgTable("carts", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").references(() => users.id),
   status: varchar("status", { length: 50 }).notNull().default("active"),
   ...timestamps,
 });
 
 export const cartItems = pgTable("cart_items", {
-  id: serial("id").primaryKey(),
-  cartId: integer("cart_id").references(() => carts.id),
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  cartId: uuid("cart_id").references(() => carts.id),
   productId: varchar("product_id", { length: 255 }).notNull(), // ID from frontend
   productName: varchar("product_name", { length: 255 }).notNull(),
   productImage: varchar("product_image", { length: 255 }),

@@ -3,6 +3,7 @@ import {
   integer,
   pgTable,
   serial,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { users } from "./user";
@@ -11,12 +12,12 @@ import { timestamps } from "./etc";
 import { relations } from "drizzle-orm";
 
 export const orders = pgTable("orders", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id),
-  shippingAddressId: integer("shipping_address_id").references(
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  userId: uuid("user_id").references(() => users.id),
+  shippingAddressId: uuid("shipping_address_id").references(
     () => addresses.id
   ),
-  billingAddressId: integer("billing_address_id").references(
+  billingAddressId: uuid("billing_address_id").references(
     () => addresses.id
   ),
   status: varchar("status", { length: 50 }).notNull().default("pending"),
@@ -26,8 +27,8 @@ export const orders = pgTable("orders", {
 
 // Order items table (modified to store product details)
 export const orderItems = pgTable("order_items", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id").references(() => orders.id),
+  id: uuid().defaultRandom().primaryKey().notNull(),
+  orderId: uuid("order_id").references(() => orders.id),
   productId: varchar("product_id", { length: 255 }).notNull(), // ID from frontend
   productName: varchar("product_name", { length: 255 }).notNull(),
   productImage: varchar("product_image", { length: 255 }),
