@@ -27,9 +27,13 @@ export const addProductToCart = async (
 
     req.body.cartId = userCart.id;
     await cartService.addProductToCart(req.body);
-    
+
     res.json({ message: "Product added to cart", status: 200 });
   } catch (error) {
     next(error);
   }
 };
+
+export const updateCartItem = async () => {};
+
+export const deleteCartItem = async () => {};

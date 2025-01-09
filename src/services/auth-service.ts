@@ -90,7 +90,7 @@ export class AuthService {
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-      res.status(401).json({ error: "Access token required" });
+      res.unauthorized();
       return;
     }
 
@@ -103,7 +103,7 @@ export class AuthService {
         .where(eq(sessions.accessToken, token));
 
       if (!session[0] || !session[0].isValid) {
-        res.status(401).json({ error: "Invalid session" });
+        res.unauthorized();
         return;
       }
 
@@ -115,7 +115,7 @@ export class AuthService {
 
       next();
     } catch (error) {
-      res.status(403).json({ error: "Invalid token" });
+      res.unauthorized();
       return;
     }
   }

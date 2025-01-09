@@ -1,10 +1,11 @@
 import "module-alias/register";
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import { errorHandler } from "@/middleware/error-handler";
 import { rateLimit } from "express-rate-limit";
 
 import env from "@/config/env";
 import routes from "@/routes";
+import { responseEnhancer } from "./middleware/response-handler";
 
 const app = express();
 const baseURL = "/api/v1";
@@ -20,9 +21,11 @@ app.use(
 
 app.use(express.json());
 
+app.use(responseEnhancer);
+
 app.use(baseURL, routes);
 
-app.use(errorHandler);
+app.use(errorHandler as ErrorRequestHandler);
 
 app.listen(env.PORT, () => {
   console.log(`Server is running on http://localhost:${env.PORT}`);
