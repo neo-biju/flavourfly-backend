@@ -26,8 +26,11 @@ export const addProductToCart = async (
     const userCart = await cartService.getOrCreateCart(req.body.userId);
 
     req.body.cartId = userCart.id;
-    await cartService.addProductToCart(req.body);
-    res.success("Product added to cart");
+    const response = await cartService.addProductToCart(
+      req.body,
+      req.body.userId
+    );
+    res.success("Product added to cart", response);
   } catch (error) {
     next(error);
   }

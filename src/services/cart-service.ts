@@ -47,9 +47,28 @@ export class CartService {
     }
   }
 
-  async addProductToCart(productData: CartItemsInsertValidation) {
+  async addProductToCart(
+    productData: CartItemsInsertValidation,
+    userId: number
+  ) {
     try {
-      await db.insert(cartItems).values({ ...productData });
+      const getCart = await this.getOrCreateCart(userId);
+
+      const findTheProductCart = getCart.cart_items?.find(
+        (item) => item?.productId === productData.productId
+      );
+
+      if (findTheProductCart) {
+        return this.updateProductQuantity(
+          productData.productId,
+          findTheProductCart.quantity + 1
+        );
+      } else {
+        return await db
+          .insert(cartItems)
+          .values({ ...productData })
+          .returning();
+      }
     } catch (error: any) {
       throw new ApiError(error.message || "Failed to get or create cart");
     }
@@ -57,9 +76,23 @@ export class CartService {
 
   async deleteProductFromCart(productId: string) {
     try {
-      await db.delete(cartItems).where(eq(cartItems.productId, productId));
+      return await db
+        .delete(cartItems)
+        .where(eq(cartItems.productId, productId));
     } catch (error: any) {
       throw new ApiError(error.message || "Failed to delete product from cart");
+    }
+  }
+
+  async updateProductQuantity(productId: string, quantity: number) {
+    try {
+      return await db
+        .update(cartItems)
+        .set({ quantity })
+        .where(eq(cartItems.productId, productId))
+        .returning();
+    } catch (error: any) {
+      throw new ApiError(error.message || "Failed to update product quantity");
     }
   }
 }
