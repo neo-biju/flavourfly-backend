@@ -19,8 +19,9 @@ authRouter.post(
       );
       if (result) {
         res.json(result);
+        return
       }
-      res.json({ message: "login with google completed" });
+      res.notFound('User not found');
     } catch (error) {
       next(error);
     }

@@ -21,7 +21,7 @@ export type CartItemDeleteValidation = z.infer<
 >;
 
 export const updateProductQtyValidation = z.object({
-  cartItemId: z.number(),
+  cartItemId: z.string().uuid(),
   quantity: z.number(),
 });
 
