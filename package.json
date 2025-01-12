@@ -9,7 +9,7 @@
     "dev": "nodemon"
   },
   "_moduleAliases": {
-    "@": "src"
+    "@": "dist"
   },
   "keywords": [],
   "author": "",
